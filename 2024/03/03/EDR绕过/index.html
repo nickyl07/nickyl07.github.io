@@ -14,7 +14,7 @@
   
 
   
-  <title>NOK</title>
+  <title>EDR绕过 | NOK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
@@ -22,7 +22,7 @@
 
   <meta name="description" content="EDR绕过EDR绕过要解决的主要问题：1移除DLL挂钩。2移除内核回调。 ntdll.dll 是用户模式到内核模式的必经，EDR都会来跟它挂钩。  EDR的工作模式：  内核回调 DLL挂钩&#x2F;修补 执行流重定向  内核回调通过EDR的驱动程序实现，在执行应用程序的过程中，使用函数时会触发回调函数，回调函数会通知实现过程中的任何驱动。这个过程也通知到EDR驱动程序了。 EDR驱动程序指示E">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NOK">
+<meta property="og:title" content="EDR绕过">
 <meta property="og:url" content="http://example.com/2024/03/03/EDR%E7%BB%95%E8%BF%87/index.html">
 <meta property="og:site_name" content="NOK">
 <meta property="og:description" content="EDR绕过EDR绕过要解决的主要问题：1移除DLL挂钩。2移除内核回调。 ntdll.dll 是用户模式到内核模式的必经，EDR都会来跟它挂钩。  EDR的工作模式：  内核回调 DLL挂钩&#x2F;修补 执行流重定向  内核回调通过EDR的驱动程序实现，在执行应用程序的过程中，使用函数时会触发回调函数，回调函数会通知实现过程中的任何驱动。这个过程也通知到EDR驱动程序了。 EDR驱动程序指示E">
@@ -34,9 +34,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042231.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042108.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402271530778.png">
-<meta property="article:published_time" content="2024-03-03T13:35:24.698Z">
-<meta property="article:modified_time" content="2024-03-01T07:16:40.000Z">
+<meta property="article:published_time" content="2024-03-03T13:40:09.000Z">
+<meta property="article:modified_time" content="2024-03-03T13:47:46.877Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="调研">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://malwaretech.com/images/syscalls/windows_call_flow.png">
   
@@ -155,6 +156,13 @@
 
     
       
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">Tags</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E8%B0%83%E7%A0%94/" rel="tag">调研</a></li></ul>
+    </div>
+  </div>
+
 
     
   </div>
@@ -177,7 +185,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        Untitled
+        EDR绕过
       </h1>
     
   
@@ -185,7 +193,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2024-03-03T13:35:24.698Z" itemprop="datePublished">2024-03-03</time>
+  <time class="dt-published" datetime="2024-03-03T13:40:09.000Z" itemprop="datePublished">2024-03-03</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -200,6 +208,8 @@
           </div>
         </div>
         
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B0%83%E7%A0%94/" rel="tag">调研</a></li></ul>
+
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
