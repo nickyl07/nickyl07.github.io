@@ -124,8 +124,8 @@
   --img-overlay: rgba(0,0,0,0);
   --pagenav-curr-text: rgba(255,255,255,0.9);
   --primary-btn-text: rgba(255,255,255,0.9);
-  --display-light-icon: 1;
-  --display-dark-icon: 0;
+  --display-light-icon: 0;
+  --display-dark-icon: 1;
 }
 @supports (color: oklch(0 0 0)) {
   :root[theme='light'] {
