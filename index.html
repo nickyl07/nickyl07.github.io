@@ -155,6 +155,97 @@
    
 
 
+<article id="post-EDR绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/03/03/EDR%E7%BB%95%E8%BF%87/">Untitled</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-03-03T13:35:24.698Z" itemprop="datePublished">2024-03-03</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    Uncategorized 
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.2k words 
+          </div>
+        </div>
+        
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              EDR绕过EDR绕过要解决的主要问题：1移除DLL挂钩。2移除内核回调。
+ntdll.dll 是用户模式到内核模式的必经，EDR都会来跟它挂钩。
+
+EDR的工作模式：
+
+内核回调
+DLL挂钩&#x2F;修补
+执行流重定向
+
+内核回调通过EDR的驱动程序实现，在执行应用程序的过程中，使用函数时会触发回调函数，回调函数会通知实现过程中的任何驱动。这个过程也通知到EDR驱动程序了。
+EDR驱动程序指示EDR应用程序在应用程序的内存空间中注入和挂钩NTDLL。
+最后将执行流重定向到自身。
+通过系统调用来绕过用户模式的EDR挂钩：
+绕过用户模式 EDR 挂钩的简介 (malwaretech.com)
+EDR预加载的替代技术
+利用EDR预加载机制绕过EDR | CTF导航 (ctfiot.com)
+绕过 EDR 挂钩1、EDR解挂
+使内存可写，然后用汇编代码覆盖EDR的jmp指令。
+如图最下面那个指向
+
+​																edr与ntdll挂钩的示意图
+这种方法的主要缺点是 EDR 可以定期检查 ntdll 的内存，看看它的钩子是否已被删除。 如果 EDR 检测到其挂钩已被删...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2024/03/03/EDR%E7%BB%95%E8%BF%87/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
 <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
    
   <div class="article-inner">
