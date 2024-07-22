@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>EDR绕过 | NOK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="EDR绕过要解决的主要问题：1移除DLL挂钩。2移除内核回调。 ntdll.dll 是用户模式到内核模式的必经，EDR都会来跟它挂钩。  EDR的工作模式：  内核回调 DLL挂钩&#x2F;修补 执行流重定向  内核回调通过EDR的驱动程序实现，在执行应用程序的过程中，使用函数时会触发回调函数，回调函数会通知实现过程中的任何驱动。这个过程也通知到EDR驱动程序了。 EDR驱动程序指示EDR应用程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EDR绕过">
+<meta property="og:url" content="http://example.com/2024/03/03/EDR%E7%BB%95%E8%BF%87/index.html">
+<meta property="og:site_name" content="NOK">
+<meta property="og:description" content="EDR绕过要解决的主要问题：1移除DLL挂钩。2移除内核回调。 ntdll.dll 是用户模式到内核模式的必经，EDR都会来跟它挂钩。  EDR的工作模式：  内核回调 DLL挂钩&#x2F;修补 执行流重定向  内核回调通过EDR的驱动程序实现，在执行应用程序的过程中，使用函数时会触发回调函数，回调函数会通知实现过程中的任何驱动。这个过程也通知到EDR驱动程序了。 EDR驱动程序指示EDR应用程">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://malwaretech.com/images/syscalls/windows_call_flow.png">
+<meta property="og:image" content="https://malwaretech.com/images/syscalls/edr_hook_flow.png">
+<meta property="og:image" content="https://malwaretech.com/images/syscalls/indirect_syscall.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042506.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042231.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042108.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402271530778.png">
+<meta property="article:published_time" content="2024-03-03T13:40:09.000Z">
+<meta property="article:modified_time" content="2024-03-03T16:04:56.780Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://malwaretech.com/images/syscalls/windows_call_flow.png">
+  
+    <link rel="alternate" href="/atom.xml" title="NOK" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/xslove.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>NOK </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS Feed">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS Feed">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/20210417165214_cd0a9.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">NOK </div>
+      <div class="dot"></div>
+      <div class="subtitle">Share my life </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/nickyl07" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">Categories</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">
+                样本分析
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C/">
+                僵尸网络
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E8%B0%83%E7%A0%94/">
+                调研
+                <div class="category-count">1</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-EDR绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        EDR绕过
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-03-03T13:40:09.000Z" itemprop="datePublished">2024-03-03</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E8%B0%83%E7%A0%94/">调研</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.2k words 
+          </div>
+        </div>
+        
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>EDR绕过要解决的主要问题：1移除DLL挂钩。2移除内核回调。</p>
+<p>ntdll.dll 是用户模式到内核模式的必经，EDR都会来跟它挂钩。</p>
+<p><img src="https://malwaretech.com/images/syscalls/windows_call_flow.png" alt="img"></p>
+<p>EDR的工作模式：</p>
+<ul>
+<li>内核回调</li>
+<li>DLL挂钩&#x2F;修补</li>
+<li>执行流重定向</li>
+</ul>
+<p>内核回调通过EDR的驱动程序实现，在执行应用程序的过程中，使用函数时会触发回调函数，回调函数会通知实现过程中的任何驱动。这个过程也通知到EDR驱动程序了。</p>
+<p>EDR驱动程序指示EDR应用程序在应用程序的内存空间中注入和挂钩NTDLL。</p>
+<p>最后将执行流重定向到自身。</p>
+<p>通过系统调用来绕过用户模式的EDR挂钩：</p>
+<p><a target="_blank" rel="noopener" href="https://malwaretech.com/2023/12/an-introduction-to-bypassing-user-mode-edr-hooks.html">绕过用户模式 EDR 挂钩的简介 (malwaretech.com)</a></p>
+<p>EDR预加载的替代技术</p>
+<p><a target="_blank" rel="noopener" href="https://www.ctfiot.com/162138.html">利用EDR预加载机制绕过EDR | CTF导航 (ctfiot.com)</a></p>
+<h2 id="绕过-EDR-挂钩"><a href="#绕过-EDR-挂钩" class="headerlink" title="绕过 EDR 挂钩"></a>绕过 EDR 挂钩</h2><p>1、EDR解挂</p>
+<p>使内存可写，然后用汇编代码覆盖EDR的jmp指令。</p>
+<p>如图最下面那个指向</p>
+<p><img src="https://malwaretech.com/images/syscalls/edr_hook_flow.png" alt="img"></p>
+<p>​																edr与ntdll挂钩的示意图</p>
+<p>这种方法的主要缺点是 EDR 可以定期检查 ntdll 的内存，看看它的钩子是否已被删除。 如果 EDR 检测到其挂钩已被删除，它可能会将其写回。</p>
+<p>2、手动映射 DLL</p>
+<p>在进程内存中直接使用没有挂载的副本ntdll。</p>
+<p>系统不允许两次加载相同的DLL，因此使用这种方法我们要自己手动加载。</p>
+<p>这种方法的主要缺点是手动加载很容易出错，内存中存在多个DLL副本也很容易被检测到。</p>
+<p>3、直接系统调用</p>
+<p>因为用户模式 Nt&#x2F;Zw 函数除了执行系统调用外，没什么用，所以可以直接跳过ntdll使用syscall。</p>
+<p> 我们需要做的就是将我们想要调用的函数的 SSN 移动到 eax 寄存器中，然后执行 syscall 指令。</p>
+<p>SSN是系统服务 ID|系统服务编号|系统调用号，是函数在 SSDT 中的条目的索引。</p>
+<p>SSDT是系统服务表|系统服务描述符表。</p>
+<p>这种方法的主要缺点是 EDR 的钩子通常会覆盖设置 eax 寄存器的指令，所以我们没法知道想要的SSN是什么。在Windows中直接做系统调用是十分可疑的，很容易被EDR检测到。</p>
+<p>4、间接系统调用</p>
+<p><img src="https://malwaretech.com/images/syscalls/indirect_syscall.png" alt="img"></p>
+<p>​															<em>间接系统调用</em></p>
+<p>大多数 EDR 在 Nt 函数的钩子都在ntdll.dll的开头，我们可以自己设置 r10 和 eax 寄存器，然后跳转到挂钩的 ntdll 函数（在 EDR 的挂钩之后）中的 syscall 指令。</p>
+<p>这种方法的主要缺点是有些EDR可能会检查自己有没有出现在调用堆栈中，用间接调用的时候，绕过了EDR钩子，所以它就不会出现在调用堆栈中了。</p>
+<h2 id="使用-EDR-预加载绕过-EDR"><a href="#使用-EDR-预加载绕过-EDR" class="headerlink" title="使用 EDR 预加载绕过 EDR"></a>使用 EDR 预加载绕过 EDR</h2><p>利用EDR预加载机制绕过EDR，在EDR加载前抢先加载上自己。</p>
+<p>此方法利用的是EDR加载其用户模式组件的过程中存在的漏洞。</p>
+<p>EDR需要将其DLL注入到每个进程中, 以便hook用户模式函数, 但如果DLL运行的太早, 进程将崩溃; 如果运行的太晚, 进程可能已经执行了恶意代码。大多数EDR采取的最佳时机是尽可能晚的启动其DLL,同时仍然能够在调用进程入口点之前完成所有需要的操作。</p>
+<p>只要找到一种在进程初始化中稍早加载代码的方法, 就可以抢先于EDR执行操作。</p>
+<h3 id="1、Introducing-EDR-Preloader"><a href="#1、Introducing-EDR-Preloader" class="headerlink" title="1、Introducing EDR-Preloader"></a>1、Introducing EDR-Preloader</h3><p>利用AvrfpAPILookupCallbackRoutine回调函数。</p>
+<p>AvrfpAPILookupCallbackRoutine属于AppVerifier层，</p>
+<p>在GetProcAddress()内部函数ntdll!LdrGetProcedureAddressForCaller()的末尾会被调用。</p>
+<p>加载kernelbase.dll时，LdrpInitializeProcess()也一定会调用LdrGetProcedureAddress()。</p>
+<p>在任何尝试使用GetProcAddress() &#x2F; LdrGetProcedureAddress()时也会被调用。</p>
+<p>这些指针存在于在进程初始化之前可写入的内存段中。</p>
+<p>实际操作：</p>
+<p>1、定位AppVerifier回调指针。设置ntdll!AvrfpAPILookupCallbacksEnabled和ntdll!AvrfpAPILookupCallbackRoutine。</p>
+<p>2、设置回调调用我们的代码。将AvrfpAPILookupCallbacksEnabled设置为1。</p>
+<p>3、执行回调并中和EDR。当LdrpInitializeProcess()加载kernelbase.dll时，回调都将被执行。</p>
+<p>当回调被触发时，kernelbase.dll尚未完全加载，意味着我们仅限于调用ntdll函数，加载器锁会阻止我们启动任何线程或进程，以及加载DLL。</p>
+<p>所以我们要在阻止EDR DLL的加载，等待进程完全初始化后再开始恶意活动。</p>
+<h3 id="2、DLL-Clobbering"><a href="#2、DLL-Clobbering" class="headerlink" title="2、DLL Clobbering"></a>2、DLL Clobbering</h3><p>一些EDR可能会预先加载ntdll.dll、kernel32.dll和kernelbase.dll，把它们影射到内存中，之后再调用入口点，我们直接把这个入口点覆盖掉是最简便的。</p>
+<h3 id="3、Disabling-the-APC-dispatcher"><a href="#3、Disabling-the-APC-dispatcher" class="headerlink" title="3、Disabling the APC dispatcher"></a>3、Disabling the APC dispatcher</h3><p>不让任何APC排队到我们的进程中（包括来自EDR内核驱动程序的APC）。这样EDR就不能监测到我们的行为了。</p>
+<h3 id="4、Proxying-LdrLoadDll-calls"><a href="#4、Proxying-LdrLoadDll-calls" class="headerlink" title="4、Proxying LdrLoadDll calls"></a>4、Proxying LdrLoadDll calls</h3><p>通过在ntdll!LdrLoadDll()上设置钩子，可以监视加载的DLL。如果任何EDR尝试使用LdrLoadDll加载其DLL，可以卸载或禁用它。</p>
+<h2 id="其他绕过方法"><a href="#其他绕过方法" class="headerlink" title="其他绕过方法"></a>其他绕过方法</h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1794090">总结到目前为止发现的所有EDR绕过方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-278631.htm">致盲Windows上的EDR-编程技术-看雪</a></p>
+<p><strong>Userland-Hooking</strong>是对EDR的DLL进行修改，通过修补API函数将自己的代码嵌入内存中的技术。</p>
+<p>Patching the patch EDR软件在调用原始Windows API函数之前会分析，CylancePROTECT，如果分析没有导致可疑&#x2F;恶意行为，才开始调用，否则会被停止。Patching the patch是阻止分析，用jmp跳走，那不分析就不会执行就无法检测恶意了。</p>
+<p><strong>Outflankl’s Dumpert and direct system calls</strong></p>
+<p>在运行时不从ntdll.dll加载任何函数，而是直接使用相应的汇编代码来调用它们。</p>
+<p><strong>Syswhispers</strong></p>
+<p>这是一款工具，更方便简易写出asm（汇编程序）</p>
+<p>通过重命名ASM文件中的Windows API函数，当然也可以重命名shellcode注入代码中的Windows API函数，可以轻松绕过此检测。</p>
+<p><strong>P&#x2F;Invoke to D&#x2F;Invoke</strong></p>
+<p>如果使用C＃编码，那么实际上这是进行Userland-Hooking绕过的最简单方法。</p>
+<p>P&#x2F;Invoke是从Windows库文件静态导入API调用的默认方式。因为是静态导入，所有可以修改Windows库文件（如NTDLL.dll）的内存副本。</p>
+<p>D &#x2F; Invoke在运行时手动加载Windows API函数。</p>
+<p><strong>NTDLL.dll unhooking in C++ or Nim</strong></p>
+<p>通过覆盖钩子撤消钩子，将NTDLL.dll的新副本从磁盘映射到内存，将.text部分从新副本复制到内存中已挂接文件的.text部分</p>
+<p><strong>SharpBlock - Patching the Entrypoint</strong></p>
+<p>堪比钓鱼，它自己创建一个新进程，并使用Windows调试API侦听LOAD_DLL_DEBUG_EVENT事件。SharpBlock找到要通过调试API加载EDR的DLL，并修补此新注入的DLL的Entrypoint，以便它仅返回TRUE，而不执行其他任何操作。因此，目标DLL将不执行任何操作并退出-&gt;再也没有钩子&#x2F;补丁。</p>
+<h2 id="EDR-Preloader"><a href="#EDR-Preloader" class="headerlink" title="EDR-Preloader"></a>EDR-Preloader</h2><p>EDRPreloader（）</p>
+<p>CheckForHooks()</p>
+<p>通过检查一些常用挂钩的ntdll函数的前两条指令来检查EDR挂钩是否部署</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042506.png" alt="image-20240227114155188"></p>
+<p>在火绒的环境下 它一开始就检测不到我们的挂钩有没有部署</p>
+<p>这样就不存在后续解除挂钩的事情了</p>
+<p>个人版和企业版2.0都检测不到火绒的挂钩</p>
+<p>企业版1.0能检测到部分挂钩</p>
+<p>个人版</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042231.png" alt="image-20240227113505885"></p>
+<p>企业版1.0</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042108.png" alt="image-20240227115108444"></p>
+<p>企业版2.0</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402271530778.png" alt="屏幕截图 2024-02-27 140903"></p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2024/04/01/3CX%E4%BE%9B%E5%BA%94%E9%93%BE%E6%94%BB%E5%87%BB/"
+      title="3CX供应链攻击"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        3CX供应链攻击
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right  disabled "
+     >
+
+    <p class="title-text">
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 NOK<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
