@@ -31,11 +31,8 @@
 <meta property="og:image" content="https://malwaretech.com/images/syscalls/edr_hook_flow.png">
 <meta property="og:image" content="https://malwaretech.com/images/syscalls/indirect_syscall.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042506.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042231.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042108.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402271530778.png">
 <meta property="article:published_time" content="2024-03-03T13:40:09.000Z">
-<meta property="article:modified_time" content="2024-03-03T16:04:56.780Z">
+<meta property="article:modified_time" content="2024-07-28T10:16:15.465Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://malwaretech.com/images/syscalls/windows_call_flow.png">
@@ -292,16 +289,8 @@
 <p>CheckForHooks()</p>
 <p>通过检查一些常用挂钩的ntdll函数的前两条指令来检查EDR挂钩是否部署</p>
 <p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042506.png" alt="image-20240227114155188"></p>
-<p>在火绒的环境下 它一开始就检测不到我们的挂钩有没有部署</p>
-<p>这样就不存在后续解除挂钩的事情了</p>
-<p>个人版和企业版2.0都检测不到火绒的挂钩</p>
-<p>企业版1.0能检测到部分挂钩</p>
-<p>个人版</p>
-<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042231.png" alt="image-20240227113505885"></p>
-<p>企业版1.0</p>
-<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402281042108.png" alt="image-20240227115108444"></p>
-<p>企业版2.0</p>
-<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202402271530778.png" alt="屏幕截图 2024-02-27 140903"></p>
+<p>如果一开始就检测不到EDR挂钩有没有部署</p>
+<p>就不存在后续解除挂钩的事情了</p>
 
         
       </div>
